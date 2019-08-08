@@ -278,7 +278,7 @@ function init() {
 
 init();
 
-const express = require('express')
+const express = require('express');
 const app = express();
 app.get('./forecast/:location', getForecast);
   app.get('./forecast/', getForecast);
