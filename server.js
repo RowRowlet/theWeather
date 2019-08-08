@@ -19,6 +19,8 @@
 'use strict';
 
 const express = require('express');
+const serverless = require('serverless-http');
+const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 
@@ -185,6 +187,10 @@ function startServer() {
 
   // Handle requests for static files
   app.use(express.static('public'));
+  app.use(bodyParser.json());
+  app.use('/.netlify/functions/server', router);  // path must route to lambda
+  module.exports = app;
+  module.exports.handler = serverless(app);
 
   // Start the server
   app.listen('3000', () => {

@@ -12,6 +12,12 @@
     "express-http-to-https": "^1.1.4",
     "node-fetch": "^2.3.0"
   },
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "netlify-lambda": "^0.4.0",
+    "serverless-http": "^1.6.0"
+  },
   "engines": {
     "node": "8.x"
   },
