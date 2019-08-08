@@ -146,7 +146,7 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  return fetch(`/forecast/${coords}`)
+  return fetch(`./forecast/${coords}`)
       .then((response) => {
         return response.json();
       })
@@ -166,7 +166,7 @@ function getForecastFromCache(coords) {
   if (!('caches' in window)) {
     return null;
   }
-  const url = `${window.location.origin}/forecast/${coords}`;
+  const url = `${window.location.origin}/public/forecast/${coords}`;
   return caches.match(url)
       .then((response) => {
         if (response) {
@@ -280,9 +280,9 @@ init();
 
 const express = require('express')
 const app = express();
-app.get('/forecast/:location', getForecast);
-  app.get('/forecast/', getForecast);
-  app.get('/forecast', getForecast);
+app.get('./forecast/:location', getForecast);
+  app.get('./forecast/', getForecast);
+  app.get('./forecast', getForecast);
   app.listen('3000', () => {
     // eslint-disable-next-line no-console
     console.log('Local DevServer Started on port 3000...');
