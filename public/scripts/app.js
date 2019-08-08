@@ -146,7 +146,8 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  return fetch(`https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/${coords}`)
+  const apiLinkDS = 'https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/40.7720232,-73.9732319';
+  return fetch(apiLinkDS,{mode:'no-cors'})
       .then((response) => {
         return response.json();
       })
@@ -166,7 +167,7 @@ function getForecastFromCache(coords) {
   if (!('caches' in window)) {
     return null;
   }
-  const url = `${window.location.origin}/public/forecast/${coords}`;
+  const url = `${window.location.origin}/forecast/${coords}`;
   return caches.match(url)
       .then((response) => {
         if (response) {
