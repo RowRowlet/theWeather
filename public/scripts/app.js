@@ -146,9 +146,17 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  const apiLinkDS = 'https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/40.7720232,-73.9732319';
-  return fetch(apiLinkDS,{mode:'no-cors'})
+  if (coords == null){
+    coords = '40.7720232,-73.9732319'
+  }
+ let string ='https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/${coords}'
+  return fetch(string,{mode:'no-cors',method:'get'})
       .then((response) => {
+        if (response.ok){
+          response.json().then(json =>{
+            console.log(json);
+          });
+        }
         return response.json();
       })
       .catch(() => {
