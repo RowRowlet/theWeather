@@ -18,11 +18,12 @@
  */
 'use strict';
 
-const express = require('express');
+import express, { static } from 'express';
+var cors = require('cors');
 //const serverless = require('serverless-http');
-const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
-const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
+import { json } from 'body-parser';
+import fetch from 'node-fetch';
+import { redirectToHTTPS } from 'express-http-to-https';
 
 // CODELAB: Change this to add a delay (ms) before the server responds.
 const FORECAST_DELAY = 0;
@@ -165,7 +166,15 @@ function getForecast(req, resp) {
  */
 function startServer() {
   const app = express();
-
+  app.use(cors({
+    'allowedHeaders': ['sessionId', 'Content-Type'],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+  }));
+  app.use(express());
+  
   // Redirect HTTP to HTTPS,
   //app.use(redirectToHTTPS([/localhost:(\d{4})/], [], 301));
 
@@ -187,8 +196,8 @@ function startServer() {
   app.get(getForecast);
 
   // Handle requests for static files
-  app.use(express.static('public'));
-  app.use(bodyParser.json());
+  app.use(static('public'));
+  app.use(json());
   //app.use('/.netlify/functions/server', router);  // path must route to lambda
   //module.exports = app;
   //module.exports.handler = serverless(app);

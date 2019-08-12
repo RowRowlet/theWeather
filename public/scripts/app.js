@@ -146,22 +146,27 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  if (coords == null){
-    coords = '40.7720232,-73.9732319'
-  }
- let string ='https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/${coords}'
-  return fetch(string,{mode:'no-cors',method:'get'})
+  let proxy = 'https://cors-anywhere.herokuapp.com/'
+ let string ='https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/40.7720232,-73.9732319'
+ let myHeader = new Headers({
+   'Access-Control-Allow-Orign':'*',
+   'Content-Type':'text/plain',
+   'Access-Control-Allow-Credentials': 'true',
+   'Access-Control-Allow-Headers': 'X-Requested-With'
+ })
+  return fetch(proxy+string,
+    {mode:'cors'
+    //,credentials: 'include'
+    ,headers:myHeader}) //,{mode:'no-cors'}
       .then((response) => {
         if (response.ok){
-          response.json().then(json =>{
+          response.clone().json().then(json =>{
             console.log(json);
           });
         }
-        return response.json();
+        return response.clone().json();
       })
-      .catch(() => {
-        return null;
-      });
+      ;
 }
 
 /**
@@ -287,12 +292,17 @@ function init() {
 
 init();
 
-const express = require('express');
-const app = express();
-app.get('/forecast/:location', getForecast);
-  app.get('/forecast/', getForecast);
-  app.get('/forecast', getForecast);
-  app.listen('3000', () => {
-    // eslint-disable-next-line no-console
-    console.log('Local DevServer Started on port 3000...');
-  });
+// var express = require('express');
+// var cors = require('cors');
+// const app = express();
+// app.use(express());
+// app.use(cors({
+//   origin: 'https://api.darksky.net'
+// }));
+// app.get('/forecast/:location', getForecast);
+//   app.get('/forecast/', getForecast);
+//   app.get('/forecast', getForecast);
+//   app.listen('3000', () => {
+//     // eslint-disable-next-line no-console
+//     console.log('Local DevServer Started on port 3000...');
+//   });
