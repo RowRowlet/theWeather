@@ -147,14 +147,14 @@ function renderForecast(card, data) {
  */
 function getForecastFromNetwork(coords) {
   let proxy = 'https://cors-anywhere.herokuapp.com/'
- let string ='https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/40.7720232,-73.9732319'
+ let string ='https://api.darksky.net/forecast/d195b8accaf4d59800c50cdccf469a46/'
  let myHeader = new Headers({
    'Access-Control-Allow-Orign':'*',
    'Content-Type':'text/plain',
    'Access-Control-Allow-Credentials': 'true',
    'Access-Control-Allow-Headers': 'X-Requested-With'
  })
-  return fetch(proxy+string,
+  return fetch(proxy+string+coords,
     {mode:'cors'
     //,credentials: 'include'
     ,headers:myHeader}) //,{mode:'no-cors'}
